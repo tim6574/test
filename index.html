@@ -647,20 +647,29 @@ input[type="checkbox"] {
         </button>
       </div>
 
-      <div class="card">
-        <h3>Media controls</h3>
+      
+<div class="card">
+  <h3>Media window controls</h3>
 
-        <div class="row">
-          <button class="btn secondary"
-            onclick="showMedia()">Show window</button>
-          <button class="btn red"
-            onclick="hideMedia()">Hide window</button>
-        </div>
+  <label>Width: <span id="mediaWidthValue">420px</span></label>
+  <input type="range" id="mediaWidth" min="200" max="1000" value="420">
 
-        <label>Window opacity</label>
-        <input type="range" id="mediaOpacity"
-          min="20" max="100" value="100">
-      </div>
+  <label>Height: <span id="mediaHeightValue">280px</span></label>
+  <input type="range" id="mediaHeight" min="140" max="800" value="280">
+
+  <label>Window opacity</label>
+  <input type="range" id="mediaOpacity" min="20" max="100" value="100">
+
+  <div class="row">
+    <button class="btn secondary" onclick="showMedia()">Show window</button>
+    <button class="btn red" onclick="hideMedia()">Hide window</button>
+  </div>
+
+  <button class="btn secondary full" id="resetMediaSize" style="margin-top:12px">
+    Reset size
+  </button>
+</div>
+
 
     </div>
 

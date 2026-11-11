@@ -1,26 +1,35 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bloxd Gaming</title>
+<title>Bloxd Toolkit</title>
 
 <style>
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
   background: #080c14;
-  overflow: hidden;
-  font-family: Inter, Arial, sans-serif;
   color: white;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 /* GAME */
+
 #game {
   position: fixed;
   inset: 0;
@@ -28,73 +37,109 @@ body {
   height: 100%;
   border: none;
   z-index: 1;
+  filter: brightness(1);
 }
 
-/* FLOATING LAUNCHER */
+/* CROSSHAIR */
+
+#crosshair {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  pointer-events: none;
+  display: none;
+  width: 30px;
+  height: 30px;
+}
+
+.cross-part {
+  position: absolute;
+  background: #00ffcc;
+  border-radius: 2px;
+}
+
+#crossTop {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#crossBottom {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#crossLeft {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#crossRight {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#crossDot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #00ffcc;
+  border-radius: 50%;
+}
+
+/* LAUNCHER */
+
 #launcher {
   position: fixed;
-  right: 22px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   width: 58px;
   height: 58px;
   border-radius: 18px;
   background: #315bda;
+  border: 1px solid #6688ff;
   color: white;
-  border: 1px solid #6485f5;
-  font-size: 24px;
-  cursor: pointer;
+  font-size: 25px;
   z-index: 1000;
-  box-shadow: 0 8px 30px #0008;
-  transition: .2s;
+  box-shadow: 0 8px 30px #0009;
 }
 
 #launcher:hover {
-  transform: translateY(-50%) scale(1.08);
-  background: #416cf0;
+  background: #4773f1;
 }
 
 /* DASHBOARD */
+
 #panel {
   position: fixed;
   top: 50%;
-  right: 95px;
+  right: 90px;
   transform: translateY(-50%);
-  width: 390px;
-  max-height: 85vh;
+  width: 400px;
+  max-height: 88vh;
   overflow-y: auto;
-  background: rgba(13, 19, 33, .97);
-  border: 1px solid #293750;
-  border-radius: 19px;
-  box-shadow: 0 20px 80px #000b;
+  background: rgba(12, 18, 32, .97);
+  border: 1px solid #293b58;
+  border-radius: 18px;
   z-index: 999;
   display: none;
+  box-shadow: 0 20px 80px #000b;
   backdrop-filter: blur(18px);
 }
 
 #panel.open {
   display: block;
-  animation: appear .2s ease;
 }
 
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translate(15px,-50%);
-  }
-  to {
-    opacity: 1;
-    transform: translate(0,-50%);
-  }
-}
-
-/* HEADER */
 .header {
-  padding: 19px;
-  border-bottom: 1px solid #293750;
+  padding: 17px;
+  border-bottom: 1px solid #293b58;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   cursor: grab;
 }
 
@@ -102,91 +147,72 @@ body {
   cursor: grabbing;
 }
 
-.logo {
+.brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
 }
 
-.logo-icon {
+.brand-icon {
   width: 39px;
   height: 39px;
-  background: #315bda;
   border-radius: 12px;
+  background: #315bda;
   display: grid;
   place-items: center;
   font-size: 20px;
 }
 
-.logo h2 {
+.brand h2 {
   font-size: 16px;
 }
 
-.logo small {
-  color: #8594ad;
+.brand small {
+  color: #8b9bb5;
   font-size: 11px;
 }
 
-.header-buttons {
-  display: flex;
-  gap: 7px;
-}
-
-.header-buttons button {
-  background: #202c42;
+.header button {
+  background: #26344c;
   color: white;
   border: none;
-  width: 29px;
-  height: 29px;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 7px;
+  width: 30px;
+  height: 30px;
 }
 
-/* CONTENT */
 .content {
-  padding: 17px;
-}
-
-.status {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 17px;
-  font-size: 12px;
-  color: #9aa9c1;
-}
-
-.status span {
-  color: #53d99a;
+  padding: 16px;
 }
 
 /* TABS */
+
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 5px;
-  background: #111a2b;
+  background: #111b2d;
   padding: 5px;
-  border-radius: 11px;
-  margin-bottom: 19px;
+  border-radius: 10px;
+  margin-bottom: 17px;
 }
 
 .tab {
   flex: 1;
-  padding: 9px 3px;
-  color: #8492aa;
+  min-width: 65px;
   background: transparent;
+  color: #91a1bb;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 9px 4px;
+  border-radius: 7px;
   font-size: 11px;
 }
 
 .tab.active {
-  color: white;
   background: #315bda;
+  color: white;
 }
 
-/* SECTIONS */
 .section {
   display: none;
 }
@@ -195,202 +221,221 @@ body {
   display: block;
 }
 
-.section-title {
-  font-size: 13px;
-  margin-bottom: 12px;
-}
+/* CARDS */
 
 .card {
   background: #151f32;
-  border: 1px solid #26354d;
-  border-radius: 12px;
+  border: 1px solid #293b55;
   padding: 14px;
-  margin-bottom: 11px;
+  border-radius: 11px;
+  margin-bottom: 12px;
 }
 
-.card-title {
+.card h3 {
   font-size: 13px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 
-.description {
+.desc {
+  color: #8c9db7;
   font-size: 11px;
-  color: #8797b0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* BUTTONS */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 9px;
+  margin-top: 12px;
+}
+
 .btn {
-  padding: 10px 13px;
-  background: #315bda;
   border: none;
   border-radius: 8px;
+  background: #315bda;
   color: white;
-  cursor: pointer;
+  padding: 10px 12px;
   font-size: 12px;
   font-weight: bold;
-  transition: .15s;
 }
 
 .btn:hover {
-  background: #4773f1;
+  filter: brightness(1.2);
 }
 
 .btn.secondary {
-  background: #25334b;
-}
-
-.btn.danger {
-  background: #9d3448;
+  background: #293a56;
 }
 
 .btn.green {
   background: #16865c;
 }
 
+.btn.red {
+  background: #a4384e;
+}
+
 .btn.full {
   width: 100%;
 }
 
-.button-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.button-row .btn {
-  flex: 1;
-}
-
 /* INPUTS */
-input, select {
+
+label {
+  display: block;
+  color: #a6b5ca;
+  font-size: 11px;
+  margin-top: 13px;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"],
+select {
   width: 100%;
-  padding: 11px;
-  margin-top: 7px;
-  background: #0c1423;
+  padding: 10px;
+  background: #0b1424;
   color: white;
-  border: 1px solid #30415c;
-  border-radius: 8px;
+  border: 1px solid #354663;
+  border-radius: 7px;
   outline: none;
   font-size: 12px;
 }
 
-input:focus {
-  border-color: #4773f1;
+input:focus, select:focus {
+  border-color: #6688ff;
 }
 
-label {
-  font-size: 11px;
-  color: #a9b6ca;
-  display: block;
-  margin-top: 12px;
+input[type="range"] {
+  width: 100%;
+  accent-color: #5278ed;
 }
 
-/* MACRO LIST */
-.macro {
-  padding: 12px;
-  background: #151f32;
-  border: 1px solid #293750;
-  border-radius: 11px;
-  margin-bottom: 9px;
-}
-
-.macro-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.macro-name {
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.macro-info {
-  color: #8191aa;
-  font-size: 10px;
-  margin-top: 5px;
-}
-
-.macro-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 11px;
-}
-
-.macro-actions button {
-  flex: 1;
-  padding: 8px;
+input[type="color"] {
+  width: 48px;
+  height: 30px;
   border: none;
-  border-radius: 7px;
-  color: white;
-  background: #293c60;
+  background: transparent;
   cursor: pointer;
-  font-size: 11px;
 }
 
-/* RECORDER */
-.record-indicator {
-  color: #ff6478;
-  font-size: 11px;
-  display: none;
+input[type="checkbox"] {
+  accent-color: #5278ed;
 }
 
-.record-indicator.show {
-  display: block;
-}
+/* FULLBRIGHT */
 
-#recordLog {
-  max-height: 140px;
-  overflow-y: auto;
-  font-size: 11px;
-  color: #a3b2c8;
-  line-height: 1.8;
-  margin-top: 10px;
-}
-
-/* SETTINGS */
-.setting {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #293750;
+.bright-value {
+  color: #65a4ff;
   font-size: 12px;
 }
 
-.setting input {
-  width: auto;
-  margin: 0;
+/* MEDIA WINDOW */
+
+#mediaWindow {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  width: 420px;
+  height: 280px;
+  min-width: 200px;
+  min-height: 140px;
+  z-index: 500;
+  background: #101827;
+  border: 1px solid #49618b;
+  border-radius: 12px;
+  overflow: hidden;
+  resize: both;
+  display: none;
+  box-shadow: 0 15px 50px #000a;
 }
 
-/* FOOTER */
-.footer {
-  padding: 12px 17px;
-  border-top: 1px solid #293750;
-  font-size: 10px;
-  color: #687b98;
+#mediaWindow.visible {
+  display: flex;
+  flex-direction: column;
+}
+
+.media-header {
+  height: 38px;
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  background: #1a2941;
+  cursor: grab;
+  font-size: 11px;
+  user-select: none;
+}
+
+.media-header button {
+  border: none;
+  background: #a4384e;
+  color: white;
+  padding: 5px 9px;
+  border-radius: 5px;
+}
+
+#mediaContent {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+#mediaContent iframe,
+#mediaContent img {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: contain;
+  display: block;
+}
+
+/* MACROS */
+
+.macro-item {
+  padding: 12px;
+  border: 1px solid #30415e;
+  background: #151f32;
+  border-radius: 9px;
+  margin-bottom: 9px;
+}
+
+.macro-item strong {
+  font-size: 13px;
+}
+
+.macro-item small {
+  display: block;
+  color: #8c9db7;
+  margin-top: 5px;
+  font-size: 10px;
+}
+
+.footer {
+  padding: 12px 16px;
+  border-top: 1px solid #293b58;
+  display: flex;
+  justify-content: space-between;
+  color: #71829e;
+  font-size: 10px;
 }
 
 @media(max-width: 520px) {
   #panel {
-    width: calc(100vw - 25px);
+    width: calc(100vw - 24px);
     right: 12px;
     max-height: 80vh;
   }
 
   #launcher {
-    right: 15px;
+    right: 14px;
     top: auto;
-    bottom: 20px;
+    bottom: 16px;
     transform: none;
-  }
-
-  #launcher:hover {
-    transform: scale(1.08);
   }
 }
 </style>
@@ -398,225 +443,334 @@ label {
 
 <body>
 
+<!-- BLOXD -->
 <iframe id="game" src="https://bloxd.io"></iframe>
 
-<button id="launcher" title="Open Macro Manager">⚡</button>
+<!-- CROSSHAIR -->
+<div id="crosshair">
+  <div id="crossTop" class="cross-part"></div>
+  <div id="crossBottom" class="cross-part"></div>
+  <div id="crossLeft" class="cross-part"></div>
+  <div id="crossRight" class="cross-part"></div>
+  <div id="crossDot"></div>
+</div>
 
+<!-- FLOATING MEDIA -->
+<div id="mediaWindow">
+  <div class="media-header" id="mediaHeader">
+    <span id="mediaTitle">Media Overlay</span>
+    <button id="mediaClose">✕</button>
+  </div>
+  <div id="mediaContent"></div>
+</div>
+
+<!-- LAUNCHER -->
+<button id="launcher">⚡</button>
+
+<!-- TOOLKIT -->
 <div id="panel">
 
-  <div class="header" id="dragHeader">
-    <div class="logo">
-      <div class="logo-icon">⚡</div>
+  <div class="header" id="panelHeader">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
       <div>
-        <h2>Macro Manager</h2>
-        <small>Bloxd Gaming Tools</small>
+        <h2>Bloxd Toolkit</h2>
+        <small>Gaming Control Center</small>
       </div>
     </div>
-
-    <div class="header-buttons">
-      <button id="minimize" title="Minimize">−</button>
-      <button id="close" title="Close">×</button>
+    <div>
+      <button id="minimize">−</button>
+      <button id="close">✕</button>
     </div>
   </div>
 
   <div class="content">
 
-    <div class="status">
-      <div>CONTROL CENTER</div>
-      <span>● ONLINE</span>
-    </div>
-
     <div class="tabs">
       <button class="tab active" data-tab="home">Home</button>
-      <button class="tab" data-tab="recorder">Recorder</button>
+      <button class="tab" data-tab="visuals">Visuals</button>
+      <button class="tab" data-tab="media">Media</button>
       <button class="tab" data-tab="macros">Macros</button>
-      <button class="tab" data-tab="settings">Settings</button>
     </div>
 
     <!-- HOME -->
+
     <div class="section active" id="home">
 
       <div class="card">
-        <div class="card-title">Welcome back!</div>
-        <div class="description">
-          Your Bloxd macro control center is ready.
-          Create macros, organize sequences and manage shortcuts.
-        </div>
+        <h3>Welcome to Bloxd Toolkit</h3>
+        <p class="desc">
+          Your personal gaming overlay. Customize your
+          visuals, watch videos, display images and manage macros.
+        </p>
       </div>
 
       <div class="card">
-        <div class="card-title">Quick actions</div>
-
-        <div class="button-row">
-          <button class="btn" onclick="switchTab('recorder')">
-            ● Record
+        <h3>Quick controls</h3>
+        <div class="row">
+          <span class="desc">Fullbright</span>
+          <input type="checkbox" id="quickBright">
+        </div>
+        <div class="row">
+          <span class="desc">Crosshair</span>
+          <input type="checkbox" id="quickCross">
+        </div>
+        <div class="row">
+          <span class="desc">Media overlay</span>
+          <button class="btn secondary" onclick="showMedia()">
+            Open
           </button>
-
-          <button class="btn secondary" onclick="switchTab('macros')">
-            View macros
-          </button>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Macro statistics</div>
-        <div class="description" id="statistics">
-          0 saved macros
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Keyboard shortcuts</div>
-        <div class="description">
+        <h3>Keyboard shortcuts</h3>
+        <p class="desc">
+          F8 — Open/close toolkit<br>
           F6 — Start recording<br>
-          F7 — Stop recording<br>
-          F8 — Open / close dashboard
+          F7 — Stop recording
+        </p>
+      </div>
+
+    </div>
+
+    <!-- VISUALS -->
+
+    <div class="section" id="visuals">
+
+      <div class="card">
+        <h3>☀ Fullbright</h3>
+        <p class="desc">
+          Visually brighten the entire Bloxd iframe.
+          This is a CSS brightness effect, not an actual
+          change to the game's lighting.
+        </p>
+
+        <div class="row">
+          <span class="desc">Enable Fullbright</span>
+          <input type="checkbox" id="brightEnabled">
+        </div>
+
+        <label>
+          Brightness:
+          <span class="bright-value" id="brightValue">100%</span>
+        </label>
+
+        <input type="range" id="brightness"
+          min="100" max="300" value="100">
+
+        <button class="btn secondary full" id="resetBright"
+          style="margin-top:12px">
+          Reset brightness
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>✛ Crosshair Editor</h3>
+
+        <div class="row">
+          <span class="desc">Enable crosshair</span>
+          <input type="checkbox" id="crossEnabled">
+        </div>
+
+        <label>Crosshair color</label>
+        <input type="color" id="crossColor" value="#00ffcc">
+
+        <label>Size</label>
+        <input type="range" id="crossSize"
+          min="4" max="30" value="12">
+
+        <label>Thickness</label>
+        <input type="range" id="crossThickness"
+          min="1" max="8" value="2">
+
+        <label>Gap</label>
+        <input type="range" id="crossGap"
+          min="0" max="15" value="4">
+
+        <label>Opacity</label>
+        <input type="range" id="crossOpacity"
+          min="10" max="100" value="100">
+
+        <label>Style</label>
+        <select id="crossStyle">
+          <option value="plus">Classic cross</option>
+          <option value="dot">Dot</option>
+          <option value="circle">Circle</option>
+          <option value="square">Square</option>
+        </select>
+
+        <div class="row">
+          <button class="btn secondary"
+            id="resetCross">Reset</button>
+          <button class="btn"
+            id="saveCross">Save settings</button>
         </div>
       </div>
 
     </div>
 
-    <!-- RECORDER -->
-    <div class="section" id="recorder">
+    <!-- MEDIA -->
+
+    <div class="section" id="media">
 
       <div class="card">
-        <div class="card-title">Macro Recorder</div>
-        <div class="description">
-          Record keyboard and mouse actions received by this webpage.
-          Events inside the Bloxd iframe cannot be read by this recorder.
-        </div>
+        <h3>▶ YouTube Overlay</h3>
+        <p class="desc">
+          Put a YouTube video in a floating window
+          above your game.
+        </p>
 
-        <label>Macro name</label>
-        <input id="recordName" placeholder="My new macro">
-
-        <div class="button-row">
-          <button class="btn green" id="startRecord">
-            ● Start
-          </button>
-
-          <button class="btn danger" id="stopRecord">
-            ■ Stop
-          </button>
-        </div>
-
-        <div class="record-indicator" id="recordStatus">
-          ● RECORDING
-        </div>
-
-        <div id="recordLog">
-          Waiting to record...
-        </div>
+        <label>YouTube video URL</label>
+        <input type="url" id="youtubeURL"
+          placeholder="https://www.youtube.com/watch?v=...">
 
         <button class="btn full" style="margin-top:12px"
-          id="saveRecording">
-          Save recording
+          id="loadYoutube">
+          Load YouTube Video
         </button>
+      </div>
+
+      <div class="card">
+        <h3>▧ Image Overlay</h3>
+        <p class="desc">
+          Display an image over your game using an image URL.
+        </p>
+
+        <label>Image URL</label>
+        <input type="url" id="imageURL"
+          placeholder="https://example.com/image.png">
+
+        <button class="btn full" style="margin-top:12px"
+          id="loadImage">
+          Load Image
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>Media controls</h3>
+
+        <div class="row">
+          <button class="btn secondary"
+            onclick="showMedia()">Show window</button>
+          <button class="btn red"
+            onclick="hideMedia()">Hide window</button>
+        </div>
+
+        <label>Window opacity</label>
+        <input type="range" id="mediaOpacity"
+          min="20" max="100" value="100">
       </div>
 
     </div>
 
     <!-- MACROS -->
+
     <div class="section" id="macros">
 
       <div class="card">
-        <div class="card-title">Create custom macro</div>
-        <div class="description">
-          Build a sequence of keyboard actions manually.
+        <h3>Macro Recorder</h3>
+        <p class="desc">
+          Records events delivered to this webpage.
+          Events inside the Bloxd iframe cannot be captured
+          by this website-only recorder.
+        </p>
+
+        <label>Recording name</label>
+        <input type="text" id="recordName"
+          placeholder="My macro">
+
+        <div class="row">
+          <button class="btn green" id="startRecord">
+            ● Record
+          </button>
+          <button class="btn red" id="stopRecord">
+            ■ Stop
+          </button>
         </div>
 
-        <label>Macro name</label>
-        <input id="newMacroName" placeholder="Example: My combo">
+        <p class="desc" id="recordStatus"
+          style="margin-top:10px">Not recording</p>
 
-        <label>Keys (comma separated)</label>
-        <input id="newMacroKeys" placeholder="W, W, SPACE, SHIFT">
-
-        <label>Delay between steps (milliseconds)</label>
-        <input id="newMacroDelay" type="number" value="250" min="50">
-
-        <button class="btn full" style="margin-top:13px"
-          id="createMacro">
-          + Create macro
+        <button class="btn full" id="saveRecording"
+          style="margin-top:12px">
+          Save recording
         </button>
       </div>
 
-      <div class="section-title">YOUR MACRO LIBRARY</div>
+      <div class="card">
+        <h3>Create a custom macro</h3>
+
+        <label>Name</label>
+        <input type="text" id="macroName"
+          placeholder="My macro">
+
+        <label>Key sequence (comma separated)</label>
+        <input type="text" id="macroKeys"
+          placeholder="W, SPACE, SHIFT">
+
+        <label>Delay in milliseconds</label>
+        <input type="number" id="macroDelay"
+          value="250" min="50">
+
+        <button class="btn full" id="createMacro"
+          style="margin-top:12px">
+          Create macro
+        </button>
+      </div>
+
+      <h3 style="font-size:13px;margin-bottom:12px">
+        Saved macros
+      </h3>
 
       <div id="macroList"></div>
-
-    </div>
-
-    <!-- SETTINGS -->
-    <div class="section" id="settings">
-
-      <div class="card">
-        <div class="card-title">Dashboard settings</div>
-
-        <div class="setting">
-          <span>Open with F8</span>
-          <input type="checkbox" id="hotkeyEnabled" checked>
-        </div>
-
-        <div class="setting">
-          <span>Show launcher</span>
-          <input type="checkbox" id="launcherEnabled" checked>
-        </div>
-
-        <div class="setting">
-          <span>Confirm macro deletion</span>
-          <input type="checkbox" id="confirmDelete" checked>
-        </div>
-
-        <div class="setting">
-          <span>Keep macros saved</span>
-          <input type="checkbox" checked disabled>
-        </div>
-
-        <button class="btn danger full" style="margin-top:15px"
-          id="clearMacros">
-          Delete all macros
-        </button>
-      </div>
-
-      <div class="card">
-        <div class="card-title">About</div>
-        <div class="description">
-          Bloxd Macro Manager<br>
-          Version 1.0<br><br>
-          Macros are stored locally in your browser.
-          This dashboard does not inject scripts into Bloxd.
-        </div>
-      </div>
 
     </div>
 
   </div>
 
   <div class="footer">
-    <span>BLOXD TOOLS</span>
-    <span>VERSION 1.0</span>
+    <span>BLOXD TOOLKIT</span>
+    <span>VERSION 2.0</span>
   </div>
 
 </div>
 
 <script>
+
+/* ELEMENTS */
+
 const $ = id => document.getElementById(id);
 
-let macros = [];
-let recording = false;
-let recordedEvents = [];
-let recordStart = 0;
+const game = $("game");
+const panel = $("panel");
+const launcher = $("launcher");
+const crosshair = $("crosshair");
 
-try {
-  macros = JSON.parse(localStorage.getItem("bloxd_macros")) || [];
-  if (!Array.isArray(macros)) macros = [];
-} catch {
-  macros = [];
+/* STORAGE */
+
+function load(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch {
+    return fallback;
+  }
 }
 
-function saveMacros() {
-  localStorage.setItem("bloxd_macros", JSON.stringify(macros));
-  renderMacros();
+function store(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
 }
+
+/* PANEL */
+
+function togglePanel() {
+  panel.classList.toggle("open");
+}
+
+launcher.onclick = togglePanel;
+$("close").onclick = () => panel.classList.remove("open");
+$("minimize").onclick = () => panel.classList.remove("open");
 
 function switchTab(name) {
   document.querySelectorAll(".tab").forEach(tab => {
@@ -624,302 +778,591 @@ function switchTab(name) {
   });
 
   document.querySelectorAll(".section").forEach(section => {
-    if (section.id === name) {
-      section.classList.add("active");
-    } else if (["home","recorder","macros","settings"].includes(section.id)) {
-      section.classList.remove("active");
-    }
+    section.classList.toggle("active", section.id === name);
   });
 }
 
 document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+  tab.onclick = () => switchTab(tab.dataset.tab);
 });
 
-// PANEL CONTROLS
-function togglePanel() {
-  $("panel").classList.toggle("open");
+/* FULLBRIGHT */
+
+const savedBright = load("bt_brightness", {
+  enabled: false,
+  value: 180
+});
+
+$("brightEnabled").checked = savedBright.enabled;
+$("quickBright").checked = savedBright.enabled;
+$("brightness").value = savedBright.value;
+
+function updateBrightness() {
+  const enabled = $("brightEnabled").checked;
+  const value = Number($("brightness").value);
+
+  game.style.filter =
+    "brightness(" + (enabled ? value / 100 : 1) + ")";
+
+  $("brightValue").textContent = value + "%";
+
+  $("quickBright").checked = enabled;
+
+  store("bt_brightness", { enabled, value });
 }
 
-$("launcher").onclick = togglePanel;
-$("close").onclick = () => $("panel").classList.remove("open");
-$("minimize").onclick = () => $("panel").classList.remove("open");
+$("brightEnabled").onchange = updateBrightness;
+$("quickBright").onchange = () => {
+  $("brightEnabled").checked = $("quickBright").checked;
+  updateBrightness();
+};
+
+$("brightness").oninput = updateBrightness;
+
+$("resetBright").onclick = () => {
+  $("brightness").value = 100;
+  $("brightEnabled").checked = false;
+  updateBrightness();
+};
+
+updateBrightness();
+
+/* CROSSHAIR */
+
+const crossSettings = load("bt_crosshair", {
+  enabled: false,
+  color: "#00ffcc",
+  size: 12,
+  thickness: 2,
+  gap: 4,
+  opacity: 100,
+  style: "plus"
+});
+
+function applyCrosshair() {
+  const enabled = $("crossEnabled").checked;
+
+  const color = $("crossColor").value;
+  const size = Number($("crossSize").value);
+  const thickness = Number($("crossThickness").value);
+  const gap = Number($("crossGap").value);
+  const opacity = Number($("crossOpacity").value) / 100;
+  const style = $("crossStyle").value;
+
+  crosshair.style.display = enabled ? "block" : "none";
+  crosshair.style.opacity = opacity;
+
+  const parts = [
+    $("crossTop"),
+    $("crossBottom"),
+    $("crossLeft"),
+    $("crossRight"),
+    $("crossDot")
+  ];
+
+  parts.forEach(part => part.style.background = color);
+
+  $("crossTop").style.width = thickness + "px";
+  $("crossTop").style.height = size + "px";
+  $("crossTop").style.top = `calc(50% - ${gap + size}px)`;
+
+  $("crossBottom").style.width = thickness + "px";
+  $("crossBottom").style.height = size + "px";
+  $("crossBottom").style.top = `calc(50% + ${gap}px)`;
+
+  $("crossLeft").style.width = size + "px";
+  $("crossLeft").style.height = thickness + "px";
+  $("crossLeft").style.left = `calc(50% - ${gap + size}px)`;
+
+  $("crossRight").style.width = size + "px";
+  $("crossRight").style.height = thickness + "px";
+  $("crossRight").style.left = `calc(50% + ${gap}px)`;
+
+  $("crossDot").style.width = thickness * 2 + "px";
+  $("crossDot").style.height = thickness * 2 + "px";
+
+  $("crossDot").style.display =
+    style === "dot" || style === "plus" ? "block" : "none";
+
+  ["crossTop","crossBottom","crossLeft","crossRight"]
+    .forEach(id => $(id).style.display =
+      style === "plus" ? "block" : "none");
+
+  if (style === "circle" || style === "square") {
+    const sizePx = size * 2;
+
+    crosshair.style.width = sizePx + "px";
+    crosshair.style.height = sizePx + "px";
+    crosshair.style.border = thickness + "px solid " + color;
+    crosshair.style.borderRadius =
+      style === "circle" ? "50%" : "0";
+  } else {
+    crosshair.style.width = "30px";
+    crosshair.style.height = "30px";
+    crosshair.style.border = "none";
+  }
+
+  $("quickCross").checked = enabled;
+}
+
+function saveCrosshair() {
+  store("bt_crosshair", {
+    enabled: $("crossEnabled").checked,
+    color: $("crossColor").value,
+    size: Number($("crossSize").value),
+    thickness: Number($("crossThickness").value),
+    gap: Number($("crossGap").value),
+    opacity: Number($("crossOpacity").value),
+    style: $("crossStyle").value
+  });
+}
+
+function resetCrosshair() {
+  $("crossEnabled").checked = false;
+  $("crossColor").value = "#00ffcc";
+  $("crossSize").value = 12;
+  $("crossThickness").value = 2;
+  $("crossGap").value = 4;
+  $("crossOpacity").value = 100;
+  $("crossStyle").value = "plus";
+
+  saveCrosshair();
+  applyCrosshair();
+}
+
+$("crossEnabled").onchange = applyCrosshair;
+$("quickCross").onchange = () => {
+  $("crossEnabled").checked = $("quickCross").checked;
+  applyCrosshair();
+};
+
+[
+  "crossColor",
+  "crossSize",
+  "crossThickness",
+  "crossGap",
+  "crossOpacity",
+  "crossStyle"
+].forEach(id => {
+  $(id).addEventListener("input", applyCrosshair);
+  $(id).addEventListener("change", applyCrosshair);
+});
+
+$("saveCross").onclick = () => {
+  saveCrosshair();
+  alert("Crosshair settings saved!");
+};
+
+$("resetCross").onclick = resetCrosshair;
+
+$("crossEnabled").checked = crossSettings.enabled;
+$("crossColor").value = crossSettings.color;
+$("crossSize").value = crossSettings.size;
+$("crossThickness").value = crossSettings.thickness;
+$("crossGap").value = crossSettings.gap;
+$("crossOpacity").value = crossSettings.opacity;
+$("crossStyle").value = crossSettings.style;
+
+applyCrosshair();
+
+/* MEDIA OVERLAY */
+
+const mediaWindow = $("mediaWindow");
+const mediaContent = $("mediaContent");
+
+function showMedia() {
+  mediaWindow.classList.add("visible");
+}
+
+function hideMedia() {
+  mediaWindow.classList.remove("visible");
+
+  // Stop video playback when hiding the window.
+  mediaContent.innerHTML = "";
+}
+
+function parseYoutube(url) {
+  try {
+    const parsed = new URL(url);
+
+    let id = "";
+
+    if (parsed.hostname === "youtu.be") {
+      id = parsed.pathname.slice(1).split("/")[0];
+    } else if (
+      parsed.hostname === "www.youtube.com" ||
+      parsed.hostname === "youtube.com" ||
+      parsed.hostname === "m.youtube.com"
+    ) {
+      if (parsed.pathname === "/watch") {
+        id = parsed.searchParams.get("v") || "";
+      } else if (parsed.pathname.startsWith("/embed/")) {
+        id = parsed.pathname.split("/")[2] || "";
+      } else if (parsed.pathname.startsWith("/shorts/")) {
+        id = parsed.pathname.split("/")[2] || "";
+      }
+    }
+
+    if (!/^[a-zA-Z0-9_-]{11}$/.test(id)) {
+      return null;
+    }
+
+    return "https://www.youtube-nocookie.com/embed/" +
+      id + "?autoplay=0&rel=0";
+
+  } catch {
+    return null;
+  }
+}
+
+$("loadYoutube").onclick = () => {
+  const url = $("youtubeURL").value.trim();
+  const embed = parseYoutube(url);
+
+  if (!embed) {
+    alert("Please enter a valid YouTube video URL.");
+    return;
+  }
+
+  $("mediaTitle").textContent = "YouTube Video";
+
+  mediaContent.innerHTML = "";
+
+  const video = document.createElement("iframe");
+
+  video.src = embed;
+  video.allow =
+    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  video.allowFullscreen = true;
+
+  mediaContent.appendChild(video);
+
+  showMedia();
+};
+
+$("loadImage").onclick = () => {
+  const url = $("imageURL").value.trim();
+
+  try {
+    const parsed = new URL(url);
+
+    if (parsed.protocol !== "https:" &&
+        parsed.protocol !== "http:") {
+      throw new Error("Invalid protocol");
+    }
+
+    $("mediaTitle").textContent = "Image Overlay";
+    mediaContent.innerHTML = "";
+
+    const img = document.createElement("img");
+    img.alt = "Custom overlay image";
+    img.src = parsed.href;
+
+    img.onerror = () => {
+      alert("Could not load this image. Check the image URL.");
+      hideMedia();
+    };
+
+    mediaContent.appendChild(img);
+    showMedia();
+
+  } catch {
+    alert("Please enter a valid image URL.");
+  }
+};
+
+$("mediaClose").onclick = hideMedia;
+
+$("mediaOpacity").oninput = e => {
+  mediaWindow.style.opacity = Number(e.target.value) / 100;
+};
+
+/* DRAG MEDIA WINDOW */
+
+let mediaDragging = false;
+let mediaOffsetX = 0;
+let mediaOffsetY = 0;
+
+$("mediaHeader").addEventListener("pointerdown", e => {
+  if (e.target.closest("button")) return;
+
+  mediaDragging = true;
+
+  const rect = mediaWindow.getBoundingClientRect();
+
+  mediaOffsetX = e.clientX - rect.left;
+  mediaOffsetY = e.clientY - rect.top;
+
+  $("mediaHeader").setPointerCapture(e.pointerId);
+});
+
+$("mediaHeader").addEventListener("pointermove", e => {
+  if (!mediaDragging) return;
+
+  const x = Math.max(0, Math.min(
+    innerWidth - mediaWindow.offsetWidth,
+    e.clientX - mediaOffsetX
+  ));
+
+  const y = Math.max(0, Math.min(
+    innerHeight - 50,
+    e.clientY - mediaOffsetY
+  ));
+
+  mediaWindow.style.left = x + "px";
+  mediaWindow.style.top = y + "px";
+});
+
+$("mediaHeader").addEventListener("pointerup", () => {
+  mediaDragging = false;
+});
+
+$("mediaHeader").addEventListener("pointercancel", () => {
+  mediaDragging = false;
+});
+
+/* MACRO LIBRARY */
+
+let macros = load("bt_macros", []);
+
+function saveMacros() {
+  store("bt_macros", macros);
+  renderMacros();
+}
 
 function renderMacros() {
-  $("statistics").textContent =
-    macros.length + " saved macros";
-
   const list = $("macroList");
   list.innerHTML = "";
 
   if (!macros.length) {
-    list.innerHTML = `
-      <div class="card">
-        <div class="description">
-          No macros yet. Create your first macro above!
-        </div>
-      </div>
-    `;
+    list.innerHTML =
+      '<p class="desc">No saved macros yet.</p>';
     return;
   }
 
   macros.forEach((macro, index) => {
     const item = document.createElement("div");
-    item.className = "macro";
+    item.className = "macro-item";
 
-    const top = document.createElement("div");
-    top.className = "macro-top";
+    const title = document.createElement("strong");
+    title.textContent = macro.name;
 
-    const name = document.createElement("div");
-    name.className = "macro-name";
-    name.textContent = macro.name;
-
-    const badge = document.createElement("span");
-    badge.style.color = "#65dba1";
-    badge.style.fontSize = "10px";
-    badge.textContent = "SAVED";
-
-    top.append(name, badge);
-
-    const info = document.createElement("div");
-    info.className = "macro-info";
+    const info = document.createElement("small");
     info.textContent =
       macro.steps.length + " steps · " + macro.delay + "ms delay";
 
-    const actions = document.createElement("div");
-    actions.className = "macro-actions";
+    const row = document.createElement("div");
+    row.className = "row";
 
-    const play = document.createElement("button");
-    play.textContent = "▶ Preview";
-    play.onclick = () => previewMacro(index);
+    const preview = document.createElement("button");
+    preview.className = "btn secondary";
+    preview.textContent = "Preview";
+    preview.onclick = () => previewMacro(index);
 
     const rename = document.createElement("button");
+    rename.className = "btn secondary";
     rename.textContent = "Rename";
     rename.onclick = () => {
-      const newName = prompt("New macro name:", macro.name);
-      if (newName && newName.trim()) {
-        macro.name = newName.trim();
+      const name = prompt("New name:", macro.name);
+
+      if (name && name.trim()) {
+        macro.name = name.trim();
         saveMacros();
       }
     };
 
-    const del = document.createElement("button");
-    del.textContent = "Delete";
-    del.onclick = () => {
-      if (!$("confirmDelete").checked ||
-          confirm("Delete " + macro.name + "?")) {
+    const remove = document.createElement("button");
+    remove.className = "btn red";
+    remove.textContent = "Delete";
+    remove.onclick = () => {
+      if (confirm("Delete this macro?")) {
         macros.splice(index, 1);
         saveMacros();
       }
     };
 
-    actions.append(play, rename, del);
-    item.append(top, info, actions);
+    row.append(preview, rename, remove);
+    item.append(title, info, row);
     list.appendChild(item);
   });
 }
 
-// CREATE MACRO
 $("createMacro").onclick = () => {
-  const name = $("newMacroName").value.trim();
-  const keys = $("newMacroKeys").value
+  const name = $("macroName").value.trim();
+
+  const steps = $("macroKeys").value
     .split(",")
-    .map(k => k.trim().toUpperCase())
+    .map(x => x.trim().toUpperCase())
     .filter(Boolean);
 
   const delay = Math.max(
     50,
-    Number($("newMacroDelay").value) || 250
+    Number($("macroDelay").value) || 250
   );
 
-  if (!name || !keys.length) {
-    alert("Enter a macro name and at least one key.");
+  if (!name || !steps.length) {
+    alert("Enter a name and at least one key.");
     return;
   }
 
-  macros.push({
-    name,
-    steps: keys,
-    delay
-  });
+  macros.push({ name, steps, delay });
 
   saveMacros();
 
-  $("newMacroName").value = "";
-  $("newMacroKeys").value = "";
+  $("macroName").value = "";
+  $("macroKeys").value = "";
 
-  alert("Macro saved!");
+  alert("Macro created!");
 };
 
-// RECORDING
-function logEvent(message) {
-  const line = document.createElement("div");
-  line.textContent = message;
-  $("recordLog").prepend(line);
+let previewTimer = null;
+
+function previewMacro(index) {
+  if (previewTimer) {
+    clearTimeout(previewTimer);
+    previewTimer = null;
+  }
+
+  const macro = macros[index];
+
+  let i = 0;
+
+  switchTab("macros");
+
+  function next() {
+    if (i >= macro.steps.length) {
+      previewTimer = null;
+      alert("Preview finished!");
+      return;
+    }
+
+    console.log("Macro preview:", macro.steps[i]);
+
+    $("recordStatus").textContent =
+      "Preview: " + macro.steps[i];
+
+    i++;
+
+    previewTimer = setTimeout(next, macro.delay);
+  }
+
+  next();
 }
+
+/* RECORDER */
+
+let recording = false;
+let recorded = [];
 
 function startRecording() {
   if (recording) return;
 
   recording = true;
-  recordedEvents = [];
-  recordStart = performance.now();
+  recorded = [];
 
-  $("recordStatus").classList.add("show");
-  $("recordLog").innerHTML = "";
-
-  logEvent("Recording started...");
+  $("recordStatus").textContent =
+    "● RECORDING (parent page events only)";
 }
 
 function stopRecording() {
-  if (!recording) return;
-
   recording = false;
-  $("recordStatus").classList.remove("show");
 
-  logEvent("Recording stopped.");
-  logEvent(recordedEvents.length + " events captured.");
-}
-
-function recordAction(type, value) {
-  if (!recording) return;
-
-  const event = {
-    type,
-    value,
-    time: Math.round(performance.now() - recordStart)
-  };
-
-  recordedEvents.push(event);
-  logEvent(type + ": " + value);
+  $("recordStatus").textContent =
+    "Recording stopped. " + recorded.length + " events captured.";
 }
 
 $("startRecord").onclick = startRecording;
 $("stopRecord").onclick = stopRecording;
 
-// These listeners only receive events delivered to the parent page.
-// They do not capture keyboard or mouse activity inside the cross-origin iframe.
+function capture(type, value) {
+  if (!recording) return;
+
+  recorded.push({
+    type,
+    value,
+    time: Date.now()
+  });
+}
+
 document.addEventListener("keydown", e => {
   if (!recording) return;
   if (e.target.closest && e.target.closest("#panel")) return;
 
-  recordAction("KEY", e.key.toUpperCase());
+  capture("KEY", e.key);
 });
 
 document.addEventListener("keyup", e => {
   if (!recording) return;
   if (e.target.closest && e.target.closest("#panel")) return;
 
-  recordAction("RELEASE", e.key.toUpperCase());
+  capture("RELEASE", e.key);
 });
 
 document.addEventListener("mousedown", e => {
   if (!recording) return;
   if (e.target.closest && e.target.closest("#panel")) return;
 
-  recordAction("MOUSE", "BUTTON " + e.button);
+  capture("MOUSE", e.button);
 });
 
 $("saveRecording").onclick = () => {
   if (recording) {
-    alert("Stop recording first!");
+    alert("Stop recording first.");
     return;
   }
 
-  if (!recordedEvents.length) {
-    alert("No events recorded.");
+  if (!recorded.length) {
+    alert("Nothing recorded.");
     return;
   }
-
-  const name = $("recordName").value.trim() || "Recorded Macro";
 
   macros.push({
-    name,
-    steps: recordedEvents.map(e =>
-      e.type + ": " + e.value
-    ),
+    name: $("recordName").value.trim() || "Recording",
+    steps: recorded.map(e => e.type + ": " + e.value),
     delay: 250
   });
 
   saveMacros();
 
-  recordedEvents = [];
-  $("recordLog").innerHTML = "Recording saved!";
-
-  alert("Recording saved to your library.");
+  recorded = [];
+  $("recordStatus").textContent = "Recording saved!";
 };
 
-// PREVIEW
-let previewTimer = null;
+/* SHORTCUTS */
 
-function previewMacro(index) {
-  const macro = macros[index];
-
-  if (!macro) return;
-
-  if (previewTimer) {
-    clearTimeout(previewTimer);
-    previewTimer = null;
-  }
-
-  let step = 0;
-
-  function next() {
-    if (step >= macro.steps.length) {
-      alert("Macro preview finished!");
-      previewTimer = null;
-      return;
-    }
-
-    console.log("Macro preview:", macro.steps[step]);
-
-    $("recordLog").innerHTML =
-      "Previewing: " + macro.name +
-      "<br>Step " + (step + 1) +
-      " / " + macro.steps.length +
-      "<br>" + macro.steps[step];
-
-    step++;
-
-    previewTimer = setTimeout(next, macro.delay);
-  }
-
-  switchTab("recorder");
-  next();
-}
-
-// KEYBOARD SHORTCUTS
 document.addEventListener("keydown", e => {
   if (e.repeat) return;
 
-  if ($("hotkeyEnabled").checked) {
-    if (e.key === "F8") {
-      e.preventDefault();
-      togglePanel();
-    }
+  const tag = e.target.tagName;
 
-    if (e.key === "F6") {
-      startRecording();
-    }
+  if (tag === "INPUT" || tag === "SELECT" ||
+      tag === "TEXTAREA") return;
 
-    if (e.key === "F7") {
-      stopRecording();
-    }
+  if (e.key === "F8") {
+    e.preventDefault();
+    togglePanel();
+  }
+
+  if (e.key === "F6") {
+    startRecording();
+  }
+
+  if (e.key === "F7") {
+    stopRecording();
   }
 });
 
-// DRAG PANEL
-const panel = $("panel");
-const header = $("dragHeader");
+/* DRAG DASHBOARD */
 
-let dragging = false;
-let offsetX = 0;
-let offsetY = 0;
+let panelDragging = false;
+let panelOffsetX = 0;
+let panelOffsetY = 0;
 
-header.addEventListener("pointerdown", e => {
+$("panelHeader").addEventListener("pointerdown", e => {
   if (e.target.closest("button")) return;
 
-  dragging = true;
+  panelDragging = true;
+
   const rect = panel.getBoundingClientRect();
 
   panel.style.transform = "none";
@@ -927,52 +1370,39 @@ header.addEventListener("pointerdown", e => {
   panel.style.top = rect.top + "px";
   panel.style.right = "auto";
 
-  offsetX = e.clientX - rect.left;
-  offsetY = e.clientY - rect.top;
+  panelOffsetX = e.clientX - rect.left;
+  panelOffsetY = e.clientY - rect.top;
 
-  header.setPointerCapture(e.pointerId);
+  $("panelHeader").setPointerCapture(e.pointerId);
 });
 
-header.addEventListener("pointermove", e => {
-  if (!dragging) return;
+$("panelHeader").addEventListener("pointermove", e => {
+  if (!panelDragging) return;
 
-  const x = Math.max(0, Math.min(
-    window.innerWidth - panel.offsetWidth,
-    e.clientX - offsetX
-  ));
+  panel.style.left = Math.max(0, Math.min(
+    innerWidth - panel.offsetWidth,
+    e.clientX - panelOffsetX
+  )) + "px";
 
-  const y = Math.max(0, Math.min(
-    window.innerHeight - 80,
-    e.clientY - offsetY
-  ));
-
-  panel.style.left = x + "px";
-  panel.style.top = y + "px";
+  panel.style.top = Math.max(0, Math.min(
+    innerHeight - 80,
+    e.clientY - panelOffsetY
+  )) + "px";
 });
 
-header.addEventListener("pointerup", () => {
-  dragging = false;
+$("panelHeader").addEventListener("pointerup", () => {
+  panelDragging = false;
 });
 
-header.addEventListener("pointercancel", () => {
-  dragging = false;
+$("panelHeader").addEventListener("pointercancel", () => {
+  panelDragging = false;
 });
 
-// SETTINGS
-$("launcherEnabled").onchange = e => {
-  $("launcher").style.display =
-    e.target.checked ? "block" : "none";
-};
-
-$("clearMacros").onclick = () => {
-  if (confirm("Delete every saved macro?")) {
-    macros = [];
-    saveMacros();
-  }
-};
+/* INITIALIZE */
 
 renderMacros();
-</script>
 
+</script>
 </body>
 </html>
+```

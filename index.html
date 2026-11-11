@@ -1,29 +1,978 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Bloxd Game</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloxd Gaming</title>
 
-    body {
-      overflow: hidden;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    iframe {
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      display: block;
-    }
-  </style>
+body {
+  background: #080c14;
+  overflow: hidden;
+  font-family: Inter, Arial, sans-serif;
+  color: white;
+}
+
+/* GAME */
+#game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 1;
+}
+
+/* FLOATING LAUNCHER */
+#launcher {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: #315bda;
+  color: white;
+  border: 1px solid #6485f5;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 8px 30px #0008;
+  transition: .2s;
+}
+
+#launcher:hover {
+  transform: translateY(-50%) scale(1.08);
+  background: #416cf0;
+}
+
+/* DASHBOARD */
+#panel {
+  position: fixed;
+  top: 50%;
+  right: 95px;
+  transform: translateY(-50%);
+  width: 390px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(13, 19, 33, .97);
+  border: 1px solid #293750;
+  border-radius: 19px;
+  box-shadow: 0 20px 80px #000b;
+  z-index: 999;
+  display: none;
+  backdrop-filter: blur(18px);
+}
+
+#panel.open {
+  display: block;
+  animation: appear .2s ease;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translate(15px,-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0,-50%);
+  }
+}
+
+/* HEADER */
+.header {
+  padding: 19px;
+  border-bottom: 1px solid #293750;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+}
+
+.header:active {
+  cursor: grabbing;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.logo-icon {
+  width: 39px;
+  height: 39px;
+  background: #315bda;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.logo h2 {
+  font-size: 16px;
+}
+
+.logo small {
+  color: #8594ad;
+  font-size: 11px;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 7px;
+}
+
+.header-buttons button {
+  background: #202c42;
+  color: white;
+  border: none;
+  width: 29px;
+  height: 29px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* CONTENT */
+.content {
+  padding: 17px;
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 17px;
+  font-size: 12px;
+  color: #9aa9c1;
+}
+
+.status span {
+  color: #53d99a;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 5px;
+  background: #111a2b;
+  padding: 5px;
+  border-radius: 11px;
+  margin-bottom: 19px;
+}
+
+.tab {
+  flex: 1;
+  padding: 9px 3px;
+  color: #8492aa;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.tab.active {
+  color: white;
+  background: #315bda;
+}
+
+/* SECTIONS */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.section-title {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.card {
+  background: #151f32;
+  border: 1px solid #26354d;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 11px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.description {
+  font-size: 11px;
+  color: #8797b0;
+  line-height: 1.5;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 10px 13px;
+  background: #315bda;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: .15s;
+}
+
+.btn:hover {
+  background: #4773f1;
+}
+
+.btn.secondary {
+  background: #25334b;
+}
+
+.btn.danger {
+  background: #9d3448;
+}
+
+.btn.green {
+  background: #16865c;
+}
+
+.btn.full {
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.button-row .btn {
+  flex: 1;
+}
+
+/* INPUTS */
+input, select {
+  width: 100%;
+  padding: 11px;
+  margin-top: 7px;
+  background: #0c1423;
+  color: white;
+  border: 1px solid #30415c;
+  border-radius: 8px;
+  outline: none;
+  font-size: 12px;
+}
+
+input:focus {
+  border-color: #4773f1;
+}
+
+label {
+  font-size: 11px;
+  color: #a9b6ca;
+  display: block;
+  margin-top: 12px;
+}
+
+/* MACRO LIST */
+.macro {
+  padding: 12px;
+  background: #151f32;
+  border: 1px solid #293750;
+  border-radius: 11px;
+  margin-bottom: 9px;
+}
+
+.macro-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.macro-name {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.macro-info {
+  color: #8191aa;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.macro-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.macro-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  background: #293c60;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+/* RECORDER */
+.record-indicator {
+  color: #ff6478;
+  font-size: 11px;
+  display: none;
+}
+
+.record-indicator.show {
+  display: block;
+}
+
+#recordLog {
+  max-height: 140px;
+  overflow-y: auto;
+  font-size: 11px;
+  color: #a3b2c8;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+
+/* SETTINGS */
+.setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #293750;
+  font-size: 12px;
+}
+
+.setting input {
+  width: auto;
+  margin: 0;
+}
+
+/* FOOTER */
+.footer {
+  padding: 12px 17px;
+  border-top: 1px solid #293750;
+  font-size: 10px;
+  color: #687b98;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media(max-width: 520px) {
+  #panel {
+    width: calc(100vw - 25px);
+    right: 12px;
+    max-height: 80vh;
+  }
+
+  #launcher {
+    right: 15px;
+    top: auto;
+    bottom: 20px;
+    transform: none;
+  }
+
+  #launcher:hover {
+    transform: scale(1.08);
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <iframe src="https://bloxd.io"></iframe>
+<iframe id="game" src="https://bloxd.io"></iframe>
+
+<button id="launcher" title="Open Macro Manager">⚡</button>
+
+<div id="panel">
+
+  <div class="header" id="dragHeader">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <h2>Macro Manager</h2>
+        <small>Bloxd Gaming Tools</small>
+      </div>
+    </div>
+
+    <div class="header-buttons">
+      <button id="minimize" title="Minimize">−</button>
+      <button id="close" title="Close">×</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="status">
+      <div>CONTROL CENTER</div>
+      <span>● ONLINE</span>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="home">Home</button>
+      <button class="tab" data-tab="recorder">Recorder</button>
+      <button class="tab" data-tab="macros">Macros</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- HOME -->
+    <div class="section active" id="home">
+
+      <div class="card">
+        <div class="card-title">Welcome back!</div>
+        <div class="description">
+          Your Bloxd macro control center is ready.
+          Create macros, organize sequences and manage shortcuts.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Quick actions</div>
+
+        <div class="button-row">
+          <button class="btn" onclick="switchTab('recorder')">
+            ● Record
+          </button>
+
+          <button class="btn secondary" onclick="switchTab('macros')">
+            View macros
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Macro statistics</div>
+        <div class="description" id="statistics">
+          0 saved macros
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Keyboard shortcuts</div>
+        <div class="description">
+          F6 — Start recording<br>
+          F7 — Stop recording<br>
+          F8 — Open / close dashboard
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RECORDER -->
+    <div class="section" id="recorder">
+
+      <div class="card">
+        <div class="card-title">Macro Recorder</div>
+        <div class="description">
+          Record keyboard and mouse actions received by this webpage.
+          Events inside the Bloxd iframe cannot be read by this recorder.
+        </div>
+
+        <label>Macro name</label>
+        <input id="recordName" placeholder="My new macro">
+
+        <div class="button-row">
+          <button class="btn green" id="startRecord">
+            ● Start
+          </button>
+
+          <button class="btn danger" id="stopRecord">
+            ■ Stop
+          </button>
+        </div>
+
+        <div class="record-indicator" id="recordStatus">
+          ● RECORDING
+        </div>
+
+        <div id="recordLog">
+          Waiting to record...
+        </div>
+
+        <button class="btn full" style="margin-top:12px"
+          id="saveRecording">
+          Save recording
+        </button>
+      </div>
+
+    </div>
+
+    <!-- MACROS -->
+    <div class="section" id="macros">
+
+      <div class="card">
+        <div class="card-title">Create custom macro</div>
+        <div class="description">
+          Build a sequence of keyboard actions manually.
+        </div>
+
+        <label>Macro name</label>
+        <input id="newMacroName" placeholder="Example: My combo">
+
+        <label>Keys (comma separated)</label>
+        <input id="newMacroKeys" placeholder="W, W, SPACE, SHIFT">
+
+        <label>Delay between steps (milliseconds)</label>
+        <input id="newMacroDelay" type="number" value="250" min="50">
+
+        <button class="btn full" style="margin-top:13px"
+          id="createMacro">
+          + Create macro
+        </button>
+      </div>
+
+      <div class="section-title">YOUR MACRO LIBRARY</div>
+
+      <div id="macroList"></div>
+
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="section" id="settings">
+
+      <div class="card">
+        <div class="card-title">Dashboard settings</div>
+
+        <div class="setting">
+          <span>Open with F8</span>
+          <input type="checkbox" id="hotkeyEnabled" checked>
+        </div>
+
+        <div class="setting">
+          <span>Show launcher</span>
+          <input type="checkbox" id="launcherEnabled" checked>
+        </div>
+
+        <div class="setting">
+          <span>Confirm macro deletion</span>
+          <input type="checkbox" id="confirmDelete" checked>
+        </div>
+
+        <div class="setting">
+          <span>Keep macros saved</span>
+          <input type="checkbox" checked disabled>
+        </div>
+
+        <button class="btn danger full" style="margin-top:15px"
+          id="clearMacros">
+          Delete all macros
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">About</div>
+        <div class="description">
+          Bloxd Macro Manager<br>
+          Version 1.0<br><br>
+          Macros are stored locally in your browser.
+          This dashboard does not inject scripts into Bloxd.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>BLOXD TOOLS</span>
+    <span>VERSION 1.0</span>
+  </div>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let macros = [];
+let recording = false;
+let recordedEvents = [];
+let recordStart = 0;
+
+try {
+  macros = JSON.parse(localStorage.getItem("bloxd_macros")) || [];
+  if (!Array.isArray(macros)) macros = [];
+} catch {
+  macros = [];
+}
+
+function saveMacros() {
+  localStorage.setItem("bloxd_macros", JSON.stringify(macros));
+  renderMacros();
+}
+
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.toggle("active", tab.dataset.tab === name);
+  });
+
+  document.querySelectorAll(".section").forEach(section => {
+    if (section.id === name) {
+      section.classList.add("active");
+    } else if (["home","recorder","macros","settings"].includes(section.id)) {
+      section.classList.remove("active");
+    }
+  });
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+});
+
+// PANEL CONTROLS
+function togglePanel() {
+  $("panel").classList.toggle("open");
+}
+
+$("launcher").onclick = togglePanel;
+$("close").onclick = () => $("panel").classList.remove("open");
+$("minimize").onclick = () => $("panel").classList.remove("open");
+
+function renderMacros() {
+  $("statistics").textContent =
+    macros.length + " saved macros";
+
+  const list = $("macroList");
+  list.innerHTML = "";
+
+  if (!macros.length) {
+    list.innerHTML = `
+      <div class="card">
+        <div class="description">
+          No macros yet. Create your first macro above!
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  macros.forEach((macro, index) => {
+    const item = document.createElement("div");
+    item.className = "macro";
+
+    const top = document.createElement("div");
+    top.className = "macro-top";
+
+    const name = document.createElement("div");
+    name.className = "macro-name";
+    name.textContent = macro.name;
+
+    const badge = document.createElement("span");
+    badge.style.color = "#65dba1";
+    badge.style.fontSize = "10px";
+    badge.textContent = "SAVED";
+
+    top.append(name, badge);
+
+    const info = document.createElement("div");
+    info.className = "macro-info";
+    info.textContent =
+      macro.steps.length + " steps · " + macro.delay + "ms delay";
+
+    const actions = document.createElement("div");
+    actions.className = "macro-actions";
+
+    const play = document.createElement("button");
+    play.textContent = "▶ Preview";
+    play.onclick = () => previewMacro(index);
+
+    const rename = document.createElement("button");
+    rename.textContent = "Rename";
+    rename.onclick = () => {
+      const newName = prompt("New macro name:", macro.name);
+      if (newName && newName.trim()) {
+        macro.name = newName.trim();
+        saveMacros();
+      }
+    };
+
+    const del = document.createElement("button");
+    del.textContent = "Delete";
+    del.onclick = () => {
+      if (!$("confirmDelete").checked ||
+          confirm("Delete " + macro.name + "?")) {
+        macros.splice(index, 1);
+        saveMacros();
+      }
+    };
+
+    actions.append(play, rename, del);
+    item.append(top, info, actions);
+    list.appendChild(item);
+  });
+}
+
+// CREATE MACRO
+$("createMacro").onclick = () => {
+  const name = $("newMacroName").value.trim();
+  const keys = $("newMacroKeys").value
+    .split(",")
+    .map(k => k.trim().toUpperCase())
+    .filter(Boolean);
+
+  const delay = Math.max(
+    50,
+    Number($("newMacroDelay").value) || 250
+  );
+
+  if (!name || !keys.length) {
+    alert("Enter a macro name and at least one key.");
+    return;
+  }
+
+  macros.push({
+    name,
+    steps: keys,
+    delay
+  });
+
+  saveMacros();
+
+  $("newMacroName").value = "";
+  $("newMacroKeys").value = "";
+
+  alert("Macro saved!");
+};
+
+// RECORDING
+function logEvent(message) {
+  const line = document.createElement("div");
+  line.textContent = message;
+  $("recordLog").prepend(line);
+}
+
+function startRecording() {
+  if (recording) return;
+
+  recording = true;
+  recordedEvents = [];
+  recordStart = performance.now();
+
+  $("recordStatus").classList.add("show");
+  $("recordLog").innerHTML = "";
+
+  logEvent("Recording started...");
+}
+
+function stopRecording() {
+  if (!recording) return;
+
+  recording = false;
+  $("recordStatus").classList.remove("show");
+
+  logEvent("Recording stopped.");
+  logEvent(recordedEvents.length + " events captured.");
+}
+
+function recordAction(type, value) {
+  if (!recording) return;
+
+  const event = {
+    type,
+    value,
+    time: Math.round(performance.now() - recordStart)
+  };
+
+  recordedEvents.push(event);
+  logEvent(type + ": " + value);
+}
+
+$("startRecord").onclick = startRecording;
+$("stopRecord").onclick = stopRecording;
+
+// These listeners only receive events delivered to the parent page.
+// They do not capture keyboard or mouse activity inside the cross-origin iframe.
+document.addEventListener("keydown", e => {
+  if (!recording) return;
+  if (e.target.closest && e.target.closest("#panel")) return;
+
+  recordAction("KEY", e.key.toUpperCase());
+});
+
+document.addEventListener("keyup", e => {
+  if (!recording) return;
+  if (e.target.closest && e.target.closest("#panel")) return;
+
+  recordAction("RELEASE", e.key.toUpperCase());
+});
+
+document.addEventListener("mousedown", e => {
+  if (!recording) return;
+  if (e.target.closest && e.target.closest("#panel")) return;
+
+  recordAction("MOUSE", "BUTTON " + e.button);
+});
+
+$("saveRecording").onclick = () => {
+  if (recording) {
+    alert("Stop recording first!");
+    return;
+  }
+
+  if (!recordedEvents.length) {
+    alert("No events recorded.");
+    return;
+  }
+
+  const name = $("recordName").value.trim() || "Recorded Macro";
+
+  macros.push({
+    name,
+    steps: recordedEvents.map(e =>
+      e.type + ": " + e.value
+    ),
+    delay: 250
+  });
+
+  saveMacros();
+
+  recordedEvents = [];
+  $("recordLog").innerHTML = "Recording saved!";
+
+  alert("Recording saved to your library.");
+};
+
+// PREVIEW
+let previewTimer = null;
+
+function previewMacro(index) {
+  const macro = macros[index];
+
+  if (!macro) return;
+
+  if (previewTimer) {
+    clearTimeout(previewTimer);
+    previewTimer = null;
+  }
+
+  let step = 0;
+
+  function next() {
+    if (step >= macro.steps.length) {
+      alert("Macro preview finished!");
+      previewTimer = null;
+      return;
+    }
+
+    console.log("Macro preview:", macro.steps[step]);
+
+    $("recordLog").innerHTML =
+      "Previewing: " + macro.name +
+      "<br>Step " + (step + 1) +
+      " / " + macro.steps.length +
+      "<br>" + macro.steps[step];
+
+    step++;
+
+    previewTimer = setTimeout(next, macro.delay);
+  }
+
+  switchTab("recorder");
+  next();
+}
+
+// KEYBOARD SHORTCUTS
+document.addEventListener("keydown", e => {
+  if (e.repeat) return;
+
+  if ($("hotkeyEnabled").checked) {
+    if (e.key === "F8") {
+      e.preventDefault();
+      togglePanel();
+    }
+
+    if (e.key === "F6") {
+      startRecording();
+    }
+
+    if (e.key === "F7") {
+      stopRecording();
+    }
+  }
+});
+
+// DRAG PANEL
+const panel = $("panel");
+const header = $("dragHeader");
+
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+header.addEventListener("pointerdown", e => {
+  if (e.target.closest("button")) return;
+
+  dragging = true;
+  const rect = panel.getBoundingClientRect();
+
+  panel.style.transform = "none";
+  panel.style.left = rect.left + "px";
+  panel.style.top = rect.top + "px";
+  panel.style.right = "auto";
+
+  offsetX = e.clientX - rect.left;
+  offsetY = e.clientY - rect.top;
+
+  header.setPointerCapture(e.pointerId);
+});
+
+header.addEventListener("pointermove", e => {
+  if (!dragging) return;
+
+  const x = Math.max(0, Math.min(
+    window.innerWidth - panel.offsetWidth,
+    e.clientX - offsetX
+  ));
+
+  const y = Math.max(0, Math.min(
+    window.innerHeight - 80,
+    e.clientY - offsetY
+  ));
+
+  panel.style.left = x + "px";
+  panel.style.top = y + "px";
+});
+
+header.addEventListener("pointerup", () => {
+  dragging = false;
+});
+
+header.addEventListener("pointercancel", () => {
+  dragging = false;
+});
+
+// SETTINGS
+$("launcherEnabled").onchange = e => {
+  $("launcher").style.display =
+    e.target.checked ? "block" : "none";
+};
+
+$("clearMacros").onclick = () => {
+  if (confirm("Delete every saved macro?")) {
+    macros = [];
+    saveMacros();
+  }
+};
+
+renderMacros();
+</script>
 
 </body>
 </html>
